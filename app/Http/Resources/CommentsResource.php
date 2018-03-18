@@ -5,9 +5,8 @@ namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Collection;
 use App\People;
-use App\Comment;
 
-class ArticlesResource extends ResourceCollection
+class CommentsResource extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.
@@ -18,26 +17,19 @@ class ArticlesResource extends ResourceCollection
     public function toArray($request)
     {
         return [
-            'data' => ArticleResource::collection($this->collection),
+            'data' => CommentResource::collection($this->collection),
         ];
     }
 
     public function with($request)
     {
-        $comments = $this->collection->flatMap(function ($article) {
-            return $article->comments;
-        });
-
-        $authors = $this->collection->map(function ($article) {
+        $included = $this->collection->map(function ($article) {
             return $article->author;
-        });
-
-        $included = $authors->merge($comments)->unique();
-
+        })->unique();
 
         return [
             'links' => [
-                'self' => route('articles.index'),
+                'self' => route('comments.index'),
             ],
             'included' => $this->withIncluded($included),
         ];
@@ -48,9 +40,6 @@ class ArticlesResource extends ResourceCollection
         return $included->map(function ($include) {
             if ($include instanceof People) {
                 return new PeopleResource($include);
-            }
-            if ($include instanceof Comment) {
-                return new CommentResource($include);
             }
         });
     }

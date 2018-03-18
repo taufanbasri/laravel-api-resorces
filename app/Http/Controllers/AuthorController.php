@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Article;
 use Illuminate\Http\Request;
-use App\Http\Resources\ArticleResource;
-use App\Http\Resources\ArticlesResource;
+use App\People;
+use App\Http\Resources\PeopleResource;
 
-class ArticleController extends Controller
+class AuthorController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +15,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::with(['author', 'comments.author'])->paginate();
-
-        return new ArticlesResource($articles);
+        //
     }
 
     /**
@@ -45,23 +42,23 @@ class ArticleController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Article  $article
-     * @return ArticleResource
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
-    public function show(Article $article)
+    public function show(People $author)
     {
-        ArticleResource::withoutWrapping();
+        PeopleResource::withoutWrapping();
 
-        return new ArticleResource($article);
+        return new PeopleResource($author);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Article  $article
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Article $article)
+    public function edit($id)
     {
         //
     }
@@ -70,10 +67,10 @@ class ArticleController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Article  $article
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Article $article)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -81,10 +78,10 @@ class ArticleController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Article  $article
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Article $article)
+    public function destroy($id)
     {
         //
     }

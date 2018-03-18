@@ -16,3 +16,12 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::resource('articles', 'ArticleController');
+Route::resource('authors', 'AuthorController');
+Route::resource('comments', 'CommentController');
+
+Route::get('articles/{article}/relationships/author', 'ArticleRelationshipController@author')->name('articles.relationships.author');
+Route::get('articles/{article}/author', 'ArticleRelationshipController@author')->name('articles.author');
+Route::get('articles/{article}/relationships/comments', 'ArticleRelationshipController@comments')->name('articles.relationships.comments');
+Route::get('articles/{article}/comments', 'ArticleRelationshipController@comments')->name('articles.comments');

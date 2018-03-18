@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Article;
+use App\Comment;
 use Illuminate\Http\Request;
-use App\Http\Resources\ArticleResource;
-use App\Http\Resources\ArticlesResource;
+use App\Http\Resources\CommentResource;
+use App\Http\Resources\CommentsResource;
 
-class ArticleController extends Controller
+class CommentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +16,9 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::with(['author', 'comments.author'])->paginate();
+        $comments = Comment::with(['author'])->paginate();
 
-        return new ArticlesResource($articles);
+        return new CommentsResource($comments);
     }
 
     /**
@@ -45,23 +45,23 @@ class ArticleController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Article  $article
-     * @return ArticleResource
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
-    public function show(Article $article)
+    public function show(Comment $comment)
     {
-        ArticleResource::withoutWrapping();
+        CommentResource::withoutWrapping();
 
-        return new ArticleResource($article);
+        return new CommentResource($comment);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Article  $article
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Article $article)
+    public function edit($id)
     {
         //
     }
@@ -70,10 +70,10 @@ class ArticleController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Article  $article
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Article $article)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -81,10 +81,10 @@ class ArticleController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Article  $article
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Article $article)
+    public function destroy($id)
     {
         //
     }
